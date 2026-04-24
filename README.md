@@ -2,12 +2,12 @@
 
 A Jupyter kernel that executes XQuery against a remote [eXist-db](https://exist-db.org) server. Once installed, you can open `.ipynb` notebooks in VS Code, JupyterLab, or any Jupyter client and run XQuery cells against your eXist-db instance.
 
-This kernel is the Jupyter-ecosystem counterpart to eXist-db's [Notebook](https://github.com/eXist-db/notebook) web app. Notebooks created in either tool are fully compatible — same `.ipynb` format, same eval API, same named-cell caching.
+This kernel is the Jupyter-ecosystem counterpart to eXist-db's [Notebook](https://github.com/joewiz/notebook) web app. Notebooks created in either tool are fully compatible — same `.ipynb` format, same eval API, same named-cell caching.
 
 ## Requirements
 
 - **Node.js** 18+
-- **eXist-db** with the [Notebook](https://github.com/eXist-db/notebook) app installed (provides the `/api/eval` endpoint)
+- **eXist-db** with the [Notebook](https://github.com/joewiz/notebook) app installed (provides the `/api/eval` endpoint)
 - **Jupyter** (for `jupyter kernelspec` management) or **VS Code** with the [Jupyter extension](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter)
 
 ## Installation
@@ -15,7 +15,7 @@ This kernel is the Jupyter-ecosystem counterpart to eXist-db's [Notebook](https:
 ### From source
 
 ```bash
-git clone https://github.com/eXist-db/exist-jupyter-kernel.git
+git clone https://github.com/joewiz/exist-jupyter-kernel.git
 cd exist-jupyter-kernel
 npm install
 npm run install-kernel
