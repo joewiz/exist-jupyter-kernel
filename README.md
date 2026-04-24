@@ -97,9 +97,9 @@ All standard [W3C serialization parameters](https://qt4cg.org/specifications/xsl
 | *(none)* | XQuery adaptive output with syntax highlighting |
 | `(:~ @output method=xml indent=yes :)` | Indented XML with syntax highlighting |
 | `(:~ @output method=json indent=yes :)` | JSON with syntax highlighting |
-| `(:~ @output method=html :)` | HTML source with syntax highlighting |
+| `(:~ @output method=html :)` | HTML raw source with syntax highlighting |
 | `(:~ @output method=html media-type=text/html :)` | Rendered HTML |
-| `(:~ @output method=csv :)` | Raw CSV text |
+| `(:~ @output method=csv :)` | CSV raw text |
 | `(:~ @output method=csv media-type=text/html :)` | Rendered HTML table |
 | `(:~ @output method=text :)` | Plain text (no highlighting) |
 
@@ -253,7 +253,7 @@ python3 test/integration.py
 | `lib/kernel.js` | Main entry point — kernel startup and handler wiring |
 | `lib/wire.js` | Jupyter wire protocol — ZeroMQ sockets, HMAC signing, message dispatch |
 | `lib/exist-client.js` | HTTP client for eXist-db's eval API, MIME bundle construction |
-| `lib/directives.js` | xqdoc `@output` directive parser |
+| `lib/directives.js` | xqdoc directive parser (`@name`, `@data`, `@silent`, `@output`) |
 | `lib/completeness.js` | XQuery completeness checker for `is_complete_request` |
 | `lib/config.js` | Configuration loader (env vars, config file, defaults) |
 | `bin/cli.js` | CLI for `install` / `uninstall` commands |
