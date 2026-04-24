@@ -168,6 +168,50 @@ collection("/db/data")
 
 This is compatible with eXist-db Notebook's named-cell caching — the kernel sends the cell name and context to the eval API, and eXist caches the result server-side.
 
+### Data cells
+
+eXist-db Notebook supports data cells containing raw XML, JSON, or text. Since VS Code's Jupyter extension renders these as non-executable raw cells, the kernel provides a `@data` directive that lets you use code cells as data cells instead:
+
+```xquery
+(:~
+ * @name config
+ * @data json
+ :)
+{
+    "appName": "My Dashboard",
+    "version": "2.1",
+    "features": ["search", "export"]
+}
+```
+
+The kernel wraps the content before sending it to eXist-db for evaluation:
+
+| Format | Wrapping | Use case |
+|--------|----------|----------|
+| `@data json` | `parse-json('...')` | JSON objects and arrays |
+| `@data xml` | Passed through (XML literals are valid XQuery) | XML documents |
+| `@data text` | String literal `'...'` | Plain text |
+
+The result is cached under the cell's `@name`, so subsequent cells can reference it:
+
+```xquery
+"App: " || $config?appName || " v" || $config?version
+```
+
+All three directives can be combined freely:
+
+```xquery
+(:~
+ * @name people
+ * @data xml
+ * @output method=xml indent=yes
+ :)
+<people>
+    <person age="30"><name>Alice</name></person>
+    <person age="25"><name>Bob</name></person>
+</people>
+```
+
 ## Architecture
 
 ```
