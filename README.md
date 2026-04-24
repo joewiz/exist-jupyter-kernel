@@ -131,10 +131,10 @@ The `@output` directive coexists with standard xqdoc tags — other tags are ign
 
 ```xquery
 (:~
- * Fetches the table of contents from the database.
- * @author Joe
- * @see https://example.com/docs
- * @output method=xml indent=yes
+ : Fetches the table of contents from the database.
+ : @author Joe
+ : @see https://example.com/docs
+ : @output method=xml indent=yes
  :)
 doc("/db/apps/myapp/data/toc.xml")
 ```
@@ -160,8 +160,8 @@ The `@name` directive can be combined with `@output` on separate lines:
 
 ```xquery
 (:~
- * @name results
- * @output method=xml indent=yes
+ : @name results
+ : @output method=xml indent=yes
  :)
 collection("/db/data")
 ```
@@ -174,8 +174,8 @@ eXist-db Notebook supports data cells containing raw XML, JSON, or text. Since V
 
 ```xquery
 (:~
- * @name config
- * @data json
+ : @name config
+ : @data json
  :)
 {
     "appName": "My Dashboard",
@@ -202,9 +202,9 @@ Add `@silent` to suppress redundant output on data-only cells — the cell still
 
 ```xquery
 (:~
- * @name config
- * @data json
- * @silent
+ : @name config
+ : @data json
+ : @silent
  :)
 {"appName": "Dashboard", "version": "2.1"}
 ```
@@ -213,9 +213,9 @@ All directives can be combined freely:
 
 ```xquery
 (:~
- * @name people
- * @data xml
- * @output method=xml indent=yes
+ : @name people
+ : @data xml
+ : @output method=xml indent=yes
  :)
 <people>
     <person age="30"><name>Alice</name></person>

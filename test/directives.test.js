@@ -60,6 +60,31 @@ describe("parseDirectives", () => {
     assert.deepStrictEqual(result.serialization, { indent: "no" });
   });
 
+  it("handles xqdoc with leading colons (standard xqdoc format)", () => {
+    const code = `(:~
+ : Generate an XML document.
+ :
+ : @output method=xml indent=yes
+ :)
+<root/>`;
+    const result = parseDirectives(code);
+    assert.deepStrictEqual(result.serialization, { method: "xml", indent: "yes" });
+  });
+
+  it("parses @name with colon prefix", () => {
+    const code = `(:~
+ : Books catalog data.
+ : @name books
+ : @data xml
+ : @silent
+ :)
+<books/>`;
+    const result = parseDirectives(code);
+    assert.equal(result.name, "books");
+    assert.equal(result.dataFormat, "xml");
+    assert.equal(result.silent, true);
+  });
+
   it("handles leading whitespace before the xqdoc block", () => {
     const code = "  (:~ @output method=adaptive :)\n$data";
     const result = parseDirectives(code);
