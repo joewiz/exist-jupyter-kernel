@@ -1,0 +1,38 @@
+{
+  "name": "vscode-xquery-language",
+  "displayName": "XQuery Language Support",
+  "description": "Basic XQuery language registration for Jupyter notebook support",
+  "version": "0.1.0",
+  "publisher": "exist-db",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "xquery",
+        "aliases": [
+          "XQuery",
+          "xquery"
+        ],
+        "extensions": [
+          ".xq",
+          ".xql",
+          ".xqm",
+          ".xquery"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "xquery",
+        "scopeName": "source.xquery",
+        "path": "./xquery.tmLanguage.json"
+      }
+    ]
+  }
+}

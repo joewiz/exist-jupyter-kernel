@@ -1,0 +1,32 @@
+{
+  "name": "exist-jupyter-kernel",
+  "version": "0.1.0",
+  "description": "Jupyter kernel for executing XQuery against eXist-db",
+  "main": "lib/kernel.js",
+  "type": "module",
+  "bin": {
+    "exist-jupyter-kernel": "bin/cli.js"
+  },
+  "scripts": {
+    "start": "node lib/kernel.js",
+    "install-kernel": "node bin/cli.js install",
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "jupyter",
+    "kernel",
+    "xquery",
+    "exist-db",
+    "xml",
+    "database"
+  ],
+  "license": "LGPL-2.1-only",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "zeromq": "^6.4.2",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {}
+}
