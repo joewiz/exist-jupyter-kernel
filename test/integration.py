@@ -115,6 +115,23 @@ def test_kernel():
     assert "Alice" in result["data"]["text/html"]
     print(f"✓ CSV table (media-type=text/html): {result['data']['text/html'][:60]}...")
 
+    # Test 11: Named cell chaining via @name directive
+    mid = kc.execute('(:~ @name greeting :)\n"Hello"')
+    reply = kc.get_shell_msg(timeout=10)
+    assert reply["content"]["status"] == "ok", f"Named cell failed: {reply['content']}"
+    result = _get_result(kc, msg_id=mid)
+    assert result is not None
+    print(f"✓ Named cell (@name greeting): {result['data']['text/plain']}")
+
+    # Test 12: Reference the named cell
+    mid = kc.execute('$greeting || ", world!"')
+    reply = kc.get_shell_msg(timeout=10)
+    assert reply["content"]["status"] == "ok", f"Cell chaining failed: {reply['content']}"
+    result = _get_result(kc, msg_id=mid)
+    assert result is not None
+    assert "Hello, world!" in result["data"]["text/plain"], f"Expected 'Hello, world!' but got: {result['data']['text/plain']}"
+    print(f"✓ Cell chaining ($greeting): {result['data']['text/plain']}")
+
     print("\n✓ All tests passed!")
 
     kc.stop_channels()

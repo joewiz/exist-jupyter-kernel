@@ -141,17 +141,32 @@ doc("/db/apps/myapp/data/toc.xml")
 
 ### Named cells and cell chaining
 
-Cells can be named via cell metadata (`exist.name`), and subsequent cells can reference earlier results as variables:
+Name a cell with the `@name` directive, and subsequent cells can reference its result as a variable:
 
-```json
-{
-    "metadata": {
-        "exist": { "name": "data" }
-    }
-}
+```xquery
+(:~ @name books :)
+collection("/db/apps/myapp/data")//book
 ```
 
-A later cell can then use `$data` to reference the cached result. This is compatible with eXist-db Notebook's named-cell caching mechanism.
+A later cell can then use `$books`:
+
+```xquery
+for $book in $books
+where $book/@year >= 2020
+return $book/title/string()
+```
+
+The `@name` directive can be combined with `@output` on separate lines:
+
+```xquery
+(:~
+ * @name results
+ * @output method=xml indent=yes
+ :)
+collection("/db/data")
+```
+
+This is compatible with eXist-db Notebook's named-cell caching — the kernel sends the cell name and context to the eval API, and eXist caches the result server-side.
 
 ## Architecture
 
