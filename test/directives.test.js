@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { parseDirectives, mergeSerialization } from "../lib/directives.js";
+import { parseDirectives, mergeSerialization, wrapDataCell } from "../lib/directives.js";
 
 describe("parseDirectives", () => {
   it("returns nulls when no xqdoc comment", () => {
@@ -115,6 +115,64 @@ collection("/db/data")`;
     const result = parseDirectives(code);
     assert.equal(result.name, "x");
     assert.deepStrictEqual(result.serialization, { method: "json" });
+  });
+
+  it("parses @data json directive", () => {
+    const code = '(:~ @name config\n * @data json\n :)\n{"key": "value"}';
+    const result = parseDirectives(code);
+    assert.equal(result.name, "config");
+    assert.equal(result.dataFormat, "json");
+  });
+
+  it("parses @data xml directive", () => {
+    const code = "(:~ @data xml :)\n<root/>";
+    const result = parseDirectives(code);
+    assert.equal(result.dataFormat, "xml");
+  });
+
+  it("parses @data text directive", () => {
+    const code = "(:~ @name raw\n * @data text :)\nhello world";
+    const result = parseDirectives(code);
+    assert.equal(result.name, "raw");
+    assert.equal(result.dataFormat, "text");
+  });
+
+  it("returns null dataFormat when no @data directive", () => {
+    const code = "(:~ @name x :)\n1 + 1";
+    const result = parseDirectives(code);
+    assert.equal(result.dataFormat, null);
+  });
+});
+
+describe("wrapDataCell", () => {
+  it("wraps JSON in parse-json()", () => {
+    const code = '(:~ @name config\n * @data json\n :)\n{"key": "value"}';
+    const result = wrapDataCell(code, "json");
+    assert.equal(result, "parse-json('{\"key\": \"value\"}')");
+  });
+
+  it("escapes single quotes in JSON", () => {
+    const code = "(:~ @data json :)\n{\"msg\": \"it's here\"}";
+    const result = wrapDataCell(code, "json");
+    assert.ok(result.includes("it''s here"));
+  });
+
+  it("passes XML through unchanged", () => {
+    const code = "(:~ @data xml :)\n<root><child/></root>";
+    const result = wrapDataCell(code, "xml");
+    assert.equal(result, "<root><child/></root>");
+  });
+
+  it("wraps text in a string literal", () => {
+    const code = "(:~ @data text :)\nhello world";
+    const result = wrapDataCell(code, "text");
+    assert.equal(result, "'hello world'");
+  });
+
+  it("escapes single quotes in text", () => {
+    const code = "(:~ @data text :)\nit's a test";
+    const result = wrapDataCell(code, "text");
+    assert.equal(result, "'it''s a test'");
   });
 });
 

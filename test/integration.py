@@ -132,6 +132,23 @@ def test_kernel():
     assert "Hello, world!" in result["data"]["text/plain"], f"Expected 'Hello, world!' but got: {result['data']['text/plain']}"
     print(f"✓ Cell chaining ($greeting): {result['data']['text/plain']}")
 
+    # Test 13: JSON data cell via @data json
+    mid = kc.execute('(:~\n * @name config\n * @data json\n :)\n{"appName": "Dashboard", "version": "2.1"}')
+    reply = kc.get_shell_msg(timeout=10)
+    assert reply["content"]["status"] == "ok", f"JSON data cell failed: {reply['content']}"
+    result = _get_result(kc, msg_id=mid)
+    assert result is not None
+    print(f"✓ JSON data cell (@data json): {result['data']['text/plain'][:50]}")
+
+    # Test 14: Reference the JSON data cell
+    mid = kc.execute('"App: " || $config?appName || " v" || $config?version')
+    reply = kc.get_shell_msg(timeout=10)
+    assert reply["content"]["status"] == "ok", f"JSON chaining failed: {reply['content']}"
+    result = _get_result(kc, msg_id=mid)
+    assert result is not None
+    assert "Dashboard" in result["data"]["text/plain"]
+    print(f"✓ JSON cell chaining ($config): {result['data']['text/plain']}")
+
     print("\n✓ All tests passed!")
 
     kc.stop_channels()
