@@ -142,6 +142,22 @@ collection("/db/data")`;
     const result = parseDirectives(code);
     assert.equal(result.dataFormat, null);
   });
+
+  it("parses @silent directive", () => {
+    const code = "(:~ @name data\n * @silent\n :)\n<root/>";
+    const result = parseDirectives(code);
+    assert.equal(result.name, "data");
+    assert.equal(result.silent, true);
+  });
+
+  it("defaults silent to false", () => {
+    const code = "(:~ @name x :)\n1";
+    assert.equal(parseDirectives(code).silent, false);
+  });
+
+  it("defaults silent to false when no xqdoc", () => {
+    assert.equal(parseDirectives("1 + 1").silent, false);
+  });
 });
 
 describe("wrapDataCell", () => {

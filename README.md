@@ -198,7 +198,18 @@ The result is cached under the cell's `@name`, so subsequent cells can reference
 "App: " || $config?appName || " v" || $config?version
 ```
 
-All three directives can be combined freely:
+Add `@silent` to suppress redundant output on data-only cells — the cell still executes and caches its result, but no output is displayed:
+
+```xquery
+(:~
+ * @name config
+ * @data json
+ * @silent
+ :)
+{"appName": "Dashboard", "version": "2.1"}
+```
+
+All directives can be combined freely:
 
 ```xquery
 (:~
